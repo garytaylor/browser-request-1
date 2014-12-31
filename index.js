@@ -12,8 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-var XHR = XMLHttpRequest
-if (!XHR) throw new Error('missing XMLHttpRequest')
+if (!XMLHttpRequest) throw new Error('missing XMLHttpRequest')
 request.log = {
   'trace': noop, 'debug': noop, 'info': noop, 'warn': noop, 'error': noop
 }
@@ -164,7 +163,8 @@ function request(options, callback) {
 
 var req_seq = 0
 function run_xhr(options) {
-  var xhr = new XHR
+  var XHR = XMLHttpRequest
+    , xhr = new XHR
     , timed_out = false
     , is_cors = is_crossDomain(options.uri)
     , supports_cors = ('withCredentials' in xhr)
@@ -202,6 +202,7 @@ function run_xhr(options) {
   return xhr
 
   function on_state_change(event) {
+    var XHR = XMLHttpRequest;
     if(timed_out)
       return request.log.debug('Ignoring timed out state change', {'state':xhr.readyState, 'id':xhr.id})
 
